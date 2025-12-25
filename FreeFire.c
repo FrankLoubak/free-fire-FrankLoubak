@@ -25,6 +25,13 @@
 };
 
 void limpaBufferEntrada();
+void insereItem(struct itens *inicio,
+                const char *nome,
+                const char *tipo,
+                int quantidade,
+                int prioridade)
+;
+
 
 
 int main() {
@@ -55,6 +62,26 @@ int main() {
             scanf("%d", &opcao);
             limpaBufferEntrada();
             printf("opcao escolhida %d : ",opcao);
+
+            switch (opcao)
+            {
+            case 1:
+                char nome[maxString];
+                char tipo[maxString];
+                int quantidade;
+                int prioridade;
+                printf("\ndigite o nome do item :");
+                 if (fgets (nome, maxString, stdin) == NULL) {
+                    printf("Erro ao ler nome.\n");
+                    return 1;
+                }
+                    nome[strcspn(nome , "\n")] = '\0';
+                    printf("nome = %s\n",nome);
+                break;
+            
+            default:
+                break;
+            }
     }while (opcao!=0);
 
     printf("saindo do jogo\n");
@@ -79,6 +106,29 @@ void limpaBufferEntrada(){
     while ((c=getchar())!='\n' && c != EOF);   
     
 }
+
+void insereItem(struct itens *inicio,
+                const char *nome,
+                const char *tipo,
+                int quantidade,
+                int prioridade)
+{
+    struct itens *novo = malloc(sizeof(struct itens));
+
+    if (novo == NULL) {
+        printf("Erro: falha ao alocar memória.\n");
+        return;
+    }
+
+    strcpy(novo->nome, nome);
+    strcpy(novo->tipo, tipo);
+    novo->quantidade = quantidade;
+    novo->prioridade = prioridade;
+
+    novo->prox = inicio->prox;
+    inicio->prox = novo;
+}
+
 
 // Struct Item:
 // Representa um componente com nome, tipo, quantidade e prioridade (1 a 5).
