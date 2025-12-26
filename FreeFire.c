@@ -31,7 +31,7 @@ void insereItem(
                 const char *tipo,
                 int quantidade,
                 int prioridade);
-void listarIten(struct itens *cabeca);
+void listarItens(struct itens *cabeca);
         
 
 
@@ -70,7 +70,7 @@ int main() {
             case 1:
                 do
                 {
-                     struct itens *cabeca;
+                   
                 char nome[maxString];
                 char tipo[maxString];
                 int quantidade;
@@ -88,33 +88,36 @@ int main() {
                     printf("Erro ao ler tipo.\n");
                     return 1;
                 }
-                    nome[strcspn(nome , "\n")] = '\0';
+                    nome[strcspn(tipo , "\n")] = '\0';
                     printf("tipo = %s\n",tipo);  
                     
                 printf("\ndigite a quantidade do item :");
+                    
                  if (scanf("%d", &quantidade) != 1) {
                     printf("Erro ao ler quantidade.\n");
                     limpaBufferEntrada();
                     return 1;
-                 }
+                   }
 
                 
                 printf("\ndigite prioridade do item :");
-                 if (scanf("%d",&prioridade) != 1) {
-                    printf("Erro ao ler prioridade.\n");
-                    limpaBufferEntrada();
-                    return 1;
-                }
-                insereItem(cabeca,nome,tipo,quantidade,prioridade);
-                printf("item cadastrado com sucesso");
+                     
+                  if (scanf("%d",&prioridade) != 1) {
+                   printf("Erro ao ler prioridade.\n");
+                   limpaBufferEntrada();
+                   return 1;
+                   }
+                insereItem(&cabeca,nome,tipo,quantidade,prioridade);
+                printf("item cadastrado com sucesso\n");
                 cont++;
-                } while (cont<=maxIten);
+
+                } while (cont<maxIten);
                 printf("quantidade máxima de itens cadastrados");
                                
                 
                 break;
             case 2:
-                listarIten(&cabeca);
+                listarItens(&cabeca);
             
                 break;
             case 3:
