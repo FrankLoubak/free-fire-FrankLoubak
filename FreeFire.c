@@ -51,10 +51,10 @@ int main() {
     cabeca.prox = NULL;
 
     do{
-        printf("\n.........[  JOGO WAR  ].............\n\n");
+        printf("\n.........[ FIRE.FREE  ].............\n\n");
             printf("OPÇÃO - 1 : ADICIONAR UM ITEM NA LISTA\n");
-            printf("OPÇÃO - 2 : REMOVER UM ITEM\n");
-            printf("OPÇAO - 3 : LISTAR TODOS OS ITENS\n");
+            printf("OPÇÃO - 2 : LISTAR TODOS OS ITENS\n");
+            printf("OPÇAO - 3 : REMOVER ITEM\n");
             printf("OPÇÃO - 4 : ORDERNAR ITENS POR CRITERIO\n");
             printf("OPÇÃO - 5 : REALIZAR BUSCA POR NOME\n");
             printf("OPÇÃO - 0 : SAIR\n");
@@ -63,14 +63,13 @@ int main() {
 
             scanf("%d", &opcao);
             limpaBufferEntrada();
-            printf("opcao escolhida %d : ",opcao);
+            
 
             switch (opcao)
             {
             case 1:
-                do
-                {
-                   
+               if (cont<maxIten){
+                printf("cadastrando novo item");
                 char nome[maxString];
                 char tipo[maxString];
                 int quantidade;
@@ -81,7 +80,7 @@ int main() {
                     return 1;
                 }
                     nome[strcspn(nome , "\n")] = '\0';
-                    printf("nome = %s\n",nome);
+                   
                 
                 printf("\ndigite o tipo item :");
                  if (fgets (tipo, maxString, stdin) == NULL) {
@@ -89,13 +88,14 @@ int main() {
                     return 1;
                 }
                     nome[strcspn(tipo , "\n")] = '\0';
-                    printf("tipo = %s\n",tipo);  
+                     
                     
                 printf("\ndigite a quantidade do item :");
                     
                  if (scanf("%d", &quantidade) != 1) {
-                    printf("Erro ao ler quantidade.\n");
                     limpaBufferEntrada();
+                    printf("Erro ao ler quantidade.\n");
+                    
                     return 1;
                    }
 
@@ -103,16 +103,21 @@ int main() {
                 printf("\ndigite prioridade do item :");
                      
                   if (scanf("%d",&prioridade) != 1) {
-                   printf("Erro ao ler prioridade.\n");
                    limpaBufferEntrada();
+                   printf("Erro ao ler prioridade.\n");
+                   
                    return 1;
                    }
                 insereItem(&cabeca,nome,tipo,quantidade,prioridade);
                 printf("item cadastrado com sucesso\n");
                 cont++;
 
-                } while (cont<maxIten);
+                
+
+               }else{
                 printf("quantidade máxima de itens cadastrados");
+               }
+                
                                
                 
                 break;
