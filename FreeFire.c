@@ -30,8 +30,9 @@ void insereItem(
                 const char *nome,
                 const char *tipo,
                 int quantidade,
-                int prioridade)
-;
+                int prioridade);
+void listarIten(struct itens *cabeca);
+        
 
 
 
@@ -67,6 +68,9 @@ int main() {
             switch (opcao)
             {
             case 1:
+                do
+                {
+                     struct itens *cabeca;
                 char nome[maxString];
                 char tipo[maxString];
                 int quantidade;
@@ -78,7 +82,50 @@ int main() {
                 }
                     nome[strcspn(nome , "\n")] = '\0';
                     printf("nome = %s\n",nome);
+                
+                printf("\ndigite o tipo item :");
+                 if (fgets (tipo, maxString, stdin) == NULL) {
+                    printf("Erro ao ler tipo.\n");
+                    return 1;
+                }
+                    nome[strcspn(nome , "\n")] = '\0';
+                    printf("tipo = %s\n",tipo);  
+                    
+                printf("\ndigite a quantidade do item :");
+                 if (scanf("%d", &quantidade) != 1) {
+                    printf("Erro ao ler quantidade.\n");
+                    limpaBufferEntrada();
+                    return 1;
+                 }
+
+                
+                printf("\ndigite prioridade do item :");
+                 if (scanf("%d",&prioridade) != 1) {
+                    printf("Erro ao ler prioridade.\n");
+                    limpaBufferEntrada();
+                    return 1;
+                }
+                insereItem(cabeca,nome,tipo,quantidade,prioridade);
+                printf("item cadastrado com sucesso");
+                cont++;
+                } while (cont<=maxIten);
+                printf("quantidade máxima de itens cadastrados");
+                               
+                
                 break;
+            case 2:
+                listarIten(&cabeca);
+            
+                break;
+            case 3:
+                printf("opcao não implementada");
+                break;
+            case 4:
+                printf("opcao não implementada"); 
+                break;
+            case 5:
+                 printf("opcao não implementada");
+                 break;            
             
             default:
                 break;
@@ -134,6 +181,37 @@ void insereItem(struct itens *cabeca,
 
     atual->prox = novo;
 }
+void listarItens(struct itens *cabeca)
+{
+    if (cabeca == NULL) {
+        printf("Erro: lista não inicializada.\n");
+        return;
+    }
+
+    if (cabeca->prox == NULL) {
+        printf("\nLista vazia. Nenhum item cadastrado.\n");
+        return;
+    }
+
+    struct itens *atual = cabeca->prox;
+    int indice = 1;
+
+    printf("\n------- LISTA DE ITENS -------\n");
+
+    while (atual != NULL) {
+        printf("Item %d\n", indice);
+        printf("Nome       : %s\n", atual->nome);
+        printf("Tipo       : %s\n", atual->tipo);
+        printf("Quantidade : %d\n", atual->quantidade);
+        printf("Prioridade : %d\n", atual->prioridade);
+        printf("-----------------------------\n");
+
+        atual = atual->prox;
+        indice++;
+    }
+}
+
+
 
 
 
