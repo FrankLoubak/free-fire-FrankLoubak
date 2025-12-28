@@ -32,6 +32,7 @@ void insereItem(
                 int quantidade,
                 int prioridade);
 void listarItens(struct itens *cabeca);
+void buscaItem(struct itens *cabeca, const char *nome);
         
 
 
@@ -87,7 +88,7 @@ int main() {
                     printf("Erro ao ler tipo.\n");
                     return 1;
                 }
-                    nome[strcspn(tipo , "\n")] = '\0';
+                    tipo[strcspn(tipo , "\n")] = '\0';
                      
                     
                 printf("\ndigite a quantidade do item :");
@@ -132,8 +133,22 @@ int main() {
                 printf("opcao não implementada"); 
                 break;
             case 5:
-                 printf("opcao não implementada");
+                if(cont>0){
+                    char nome[maxString];
+                    printf("DIGITE O ITEM PROCURADO : ");
+                    if (fgets(nome,maxString,stdin)==NULL){
+                    printf("ERRO AO LER ITEM");
+                    break;
+                    }
+                 nome[strcspn(nome,"\n")]='\0';
+                 printf("\nitem procurado %s",nome);
+                 buscaItem(&cabeca,nome);
                  break;            
+                } else{
+                    printf("nenhum item cadastrado");
+                  }
+                break;
+                 
             
             default:
                 break;
@@ -217,6 +232,26 @@ void listarItens(struct itens *cabeca)
         atual = atual->prox;
         indice++;
     }
+}
+void buscaItem(struct itens *cabeca,const char *nome){
+    struct itens *atual = cabeca->prox;
+    while (atual!=NULL)
+    {
+        if(strcmp(atual->nome,nome)==0){
+           printf("\nITEM ENCONTRADO:\n");
+            printf("Nome       : %s\n", atual->nome);
+            printf("Tipo       : %s\n", atual->tipo);
+            printf("Quantidade : %d\n", atual->quantidade);
+            printf("Prioridade : %d\n", atual->prioridade);
+            return;
+        }
+        atual = atual->prox;
+    }
+    printf("item %s não localizado",nome);
+    
+    
+                    
+
 }
 
 
