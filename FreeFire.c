@@ -33,6 +33,8 @@ void insereItem(
                 int prioridade);
 void listarItens(struct itens *cabeca);
 void buscaItem(struct itens *cabeca, const char *nome);
+void bubbleSort(struct itens *cabeca);
+void insertionsort(struct itens *cabeca);
         
 
 
@@ -130,7 +132,42 @@ int main() {
                 printf("opcao não implementada");
                 break;
             case 4:
-                printf("opcao não implementada"); 
+                int opcao ;
+                printf("selecione o criterio de ordenação :\n");               
+                printf("Ordenar por nome        (bubble sort)    : - 1\n");       
+                printf("Ordenar por nome        (insertionsort)  : - 2\n");  
+                printf("Ordenar por tipo        (bublle sort)    : - 3\n"); 
+                printf("Ordenar por tipo        (insertion sort) : - 4\n");                
+                printf("Oredenar por prioridade (bublle sort)    : - 5\n");
+                printf("Oredenar por prioridade (selection sort) : - 6\n");
+
+                scanf("%d",&opcao);
+                limpaBufferEntrada();
+                        switch (opcao){
+                            case 1:
+                            bubbleSort(&cabeca);
+                            printf("\n----lista ordenada por nome-(bublle sort)");
+                            listarItens(&cabeca);
+                                                     
+                            break;
+                            case 2 :
+                            insertionsort(&cabeca);
+                            printf("\n----lista ordenada por nome-(insertion sort) ");
+                            listarItens(&cabeca);
+                            break;
+                            case 3 :
+                            printf("implementando");
+                            break;    
+                        
+                        default:
+                            break;
+
+                        }
+                        
+                         
+                        
+
+                printf("opcao %d em  implementacao",opcao); 
                 break;
             case 5:
                 if(cont>0){
@@ -253,6 +290,79 @@ void buscaItem(struct itens *cabeca,const char *nome){
                     
 
 }
+
+void bubbleSort(struct itens *cabeca) {
+    if (cabeca == NULL || cabeca->prox == NULL) {
+        return; // lista vazia ou com 1 item
+    }
+
+    bool trocou;
+    struct itens *fim = NULL;
+
+    do {
+        trocou = false;
+        struct itens *anterior = cabeca;
+        struct itens *atual = cabeca->prox;
+
+        while (atual->prox != fim) {
+            struct itens *proximo = atual->prox;
+
+            if (strcmp(atual->nome, proximo->nome) > 0) {
+                // TROCA POR PONTEIROS
+                anterior->prox = proximo;
+                atual->prox = proximo->prox;
+                proximo->prox = atual;
+
+                trocou = true;
+
+                // após a troca, "proximo" está antes
+                anterior = proximo;
+            } else {
+                anterior = atual;
+                atual = atual->prox;
+            }
+        }
+
+        fim = atual; // último já está no lugar certo
+
+    } while (trocou);
+}
+
+void insertionSort(struct itens *cabeca) {
+    if (cabeca == NULL || cabeca->prox == NULL)
+        return;
+
+    struct itens *ordenada = NULL;      // nova lista ordenada
+    struct itens *atual = cabeca->prox; // percorre lista original
+
+    while (atual != NULL) {
+        struct itens *proximo = atual->prox; // salva o próximo
+        struct itens *posicao;
+
+        // caso 1: lista ordenada vazia OU inserir no início
+        if (ordenada == NULL || strcmp(atual->nome, ordenada->nome) < 0) {
+            atual->prox = ordenada;
+            ordenada = atual;
+        }
+        else {
+            // procura posição correta
+            posicao = ordenada;
+            while (posicao->prox != NULL &&
+                   strcmp(posicao->prox->nome, atual->nome) < 0) {
+                posicao = posicao->prox;
+            }
+
+            atual->prox = posicao->prox;
+            posicao->prox = atual;
+        }
+
+        atual = proximo; // avança na lista original
+    }
+
+    cabeca->prox = ordenada; // atualiza cabeça
+}
+
+
 
 
 
