@@ -36,6 +36,12 @@ void buscaItem(struct itens *cabeca, const char *nome);
 void bubbleSort(struct itens *cabeca);
 void insertionSort(struct itens *cabeca);
 void selectionSort(struct itens *cabeca);
+int listaEstaOrdenada(struct itens *cabeca);
+struct itens *encontrarMeio(struct itens *inicio, struct itens *fim);
+struct itens *buscaBinariaLista(struct itens *cabeca, char *chave);
+
+
+
 
 
 
@@ -181,7 +187,10 @@ int main() {
                     }
                  nome[strcspn(nome,"\n")]='\0';
                  printf("\nitem procurado %s",nome);
+                 printf("\nresultado da busca sequencial---");
                  buscaItem(&cabeca,nome);
+                 printf("\nresultado da busca binaria---");
+                 buscaBinariaLista(&cabeca,nome);
                  break;            
                 } else{
                     printf("nenhum item cadastrado");
@@ -396,6 +405,62 @@ void selectionSort(struct itens *cabeca)
         inicioOrdenado = inicioOrdenado->prox;
     }
 }
+int listaEstaOrdenada(struct itens *cabeca)
+{
+    struct itens *p = cabeca->prox;
+
+    while (p != NULL && p->prox != NULL)
+    {
+        if (strcmp(p->nome, p->prox->nome) > 0)
+            return 0; 
+
+        p = p->prox;
+    }
+
+    return 1; 
+}
+struct itens *encontrarMeio(struct itens *inicio, struct itens *fim)
+{
+    struct itens *lento = inicio;
+    struct itens *rapido = inicio;
+
+    while (rapido != fim && rapido->prox != fim)
+    {
+        rapido = rapido->prox->prox;
+        lento = lento->prox;
+    }
+
+    return lento;
+}
+struct itens *buscaBinariaLista(struct itens *cabeca, char *chave)
+{
+    if (!listaEstaOrdenada(cabeca))
+        return NULL;
+
+    struct itens *inicio = cabeca->prox;
+    struct itens *fim = NULL;
+
+    while (inicio != fim)
+    {
+        struct itens *meio = encontrarMeio(inicio, fim);
+
+        int cmp = strcmp(meio->nome, chave);
+
+        if (cmp == 0)
+            return meio;
+
+        else if (cmp > 0)
+            fim = meio;
+
+        else
+            inicio = meio->prox;
+    }
+
+    return NULL;
+}
+
+
+
 
 
 
