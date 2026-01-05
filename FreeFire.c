@@ -319,14 +319,14 @@ void bubbleSort(struct itens *cabeca) {
             struct itens *proximo = atual->prox;
 
             if (strcmp(atual->nome, proximo->nome) > 0) {
-                // TROCA POR PONTEIROS
+                
                 anterior->prox = proximo;
                 atual->prox = proximo->prox;
                 proximo->prox = atual;
 
                 trocou = true;
 
-                // após a troca, "proximo" está antes
+                
                 anterior = proximo;
             } else {
                 anterior = atual;
