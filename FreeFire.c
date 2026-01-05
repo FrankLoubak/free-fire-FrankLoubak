@@ -34,8 +34,9 @@ void insereItem(
 void listarItens(struct itens *cabeca);
 void buscaItem(struct itens *cabeca, const char *nome);
 void bubbleSort(struct itens *cabeca);
-void insertionsort(struct itens *cabeca);
-        
+void insertionSort(struct itens *cabeca);
+void selectionSort(struct itens *cabeca);
+
 
 
 
@@ -136,7 +137,7 @@ int main() {
                 printf("selecione o criterio de ordenação :\n");               
                 printf("Ordenar por nome        (bubble sort)    : - 1\n");       
                 printf("Ordenar por nome        (insertionsort)  : - 2\n");  
-                printf("Ordenar por tipo        (bublle sort)    : - 3\n"); 
+                printf("Ordenar por nome        (selection sort) : - 3\n"); 
                 printf("Ordenar por tipo        (insertion sort) : - 4\n");                
                 printf("Oredenar por prioridade (bublle sort)    : - 5\n");
                 printf("Oredenar por prioridade (selection sort) : - 6\n");
@@ -156,7 +157,8 @@ int main() {
                             listarItens(&cabeca);
                             break;
                             case 3 :
-                            printf("implementando");
+                            selectionSort(&cabeca);
+                            
                             break;    
                         
                         default:
@@ -360,6 +362,39 @@ void insertionSort(struct itens *cabeca) {
     }
 
     cabeca->prox = ordenada; // atualiza cabeça
+}
+void selectionSort(struct itens *cabeca)
+{
+    struct itens *inicioOrdenado = cabeca;
+
+    while (inicioOrdenado->prox != NULL)
+    {
+        struct itens *menor = inicioOrdenado->prox;
+        struct itens *anteriorMenor = inicioOrdenado;
+
+        struct itens *anterior = menor;
+        struct itens *atual = menor->prox;
+
+        while (atual != NULL)
+        {
+            if (strcmp(atual->nome, menor->nome) < 0)
+            {
+                menor = atual;
+                anteriorMenor = anterior;
+            }
+            anterior = atual;
+            atual = atual->prox;
+        }
+
+        if (menor != inicioOrdenado->prox)
+        {
+            anteriorMenor->prox = menor->prox;
+            menor->prox = inicioOrdenado->prox;
+            inicioOrdenado->prox = menor;
+        }
+
+        inicioOrdenado = inicioOrdenado->prox;
+    }
 }
 
 
